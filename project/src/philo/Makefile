@@ -5,8 +5,7 @@ INC = -I ../../includes
 LIB = ../../library
 
 SRCS = \
-main.c\
-
+main.c utils.c print.c routine.c thread_action.c init.c\
 
 OBJS = $(SRCS:.c=.o)
 
@@ -16,11 +15,11 @@ all: $(NAME)
 	@$(CC) $^ -o $@ $(INC)
 
 $(NAME): $(OBJS)
-	@mkdir -p ../../library
+	@mkdir -p $(LIB)
 	@ar -rcs $(LIB)/$(NAME) $^
 
 clean:
-	@rm -f $(OBJS)
+	@rm -f $(OBJS) 
 
 fclean: clean
 	@rm -f $(LIB)/$(NAME)

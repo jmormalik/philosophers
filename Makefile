@@ -1,10 +1,10 @@
-NAME = philosophers
+NAME = philo
 
 DIRECTORY = ./project
 
 SOURCE = $(DIRECTORY)/src
 
-PHILOSOPHERS = $(SOURCE)/philosophers
+PHILOSOPHERS = $(SOURCE)/philo
 
 LIBRARY = $(DIRECTORY)/library
 
@@ -26,6 +26,7 @@ clean:
 fclean: clean
 	@rm -rf $(NAME)
 
+	
 re: fclean all
 
 .PHONY: all clean fclean re bonus

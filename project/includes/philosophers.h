@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yujemin <yujemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jaemyu <jaemyu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/12 17:46:54 by yujemin           #+#    #+#             */
-/*   Updated: 2025/09/12 23:57:37 by yujemin          ###   ########.fr       */
+/*   Created: 2025/09/16 00:09:31 by jaemyu            #+#    #+#             */
+/*   Updated: 2025/09/16 00:09:31 by jaemyu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef PHILOSOPHERS_H
+#ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
 # include <string.h>
@@ -22,14 +22,48 @@
 
 typedef struct s_tool
 {
-    int     surv;
-    int     philp;
-    int     eat_time;
-    int     sleep_time;
-    int     eat_number;
-}   t_tool;
+	int				num_of_head;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				must_eat;
+	int				die_sign;
+	long			start_time;
+	pthread_mutex_t	p_m;
+	pthread_mutex_t	d_m;
+}	t_tool;
 
+typedef struct s_philo
+{
+	int				num;
+	int				meal_cnt;
+	long			time;
+	long			last_eat;
+	t_tool			*rule;
+	pthread_t		thread;
+	pthread_mutex_t	*left;
+	pthread_mutex_t	*right;
+	pthread_mutex_t	l_t;
+}	t_philo;
 
-int	ph_atoi(const char *nptr);
+int		init(char **path, t_tool *tool);
+int		philo_alloc(t_philo **philo, t_tool *tool);
+void	philo_init(t_philo *philo, pthread_mutex_t *fork, t_tool *tool, int i);
+int		mutex_init(t_philo *philo, t_tool *tool);
+
+void	sleep_think(t_philo *philo);
+void	right_left(t_philo *philo, int sign);
+void	*routine(void *argv);
+
+void	ph_delay(t_philo *philo, long duration);
+int		sign_check(t_philo *philo);
+int		thread_run(t_philo *philo);
+
+void	print_die(t_philo *philo, int num);
+void	print_state(t_philo *philo, const char *msg);
+
+int		ph_atoi(const char *nptr);
+void	demise(t_philo *philo);
+long	get_time(void);
 
 #endif
